@@ -1,0 +1,12 @@
+com/thinking/machines/chessFramework/common/ChessPiecesInfo.java
+ com.thinking.machines.chessFramework.common.ChessPiecesInfo
+com/thinking/machines/chessFramework/common/Pieces_type.java
+ com.thinking.machines.chessFramework.common.Pieces_type
+com/thinking/machines/chessFramework/common/JSONUtil.java
+ com.thinking.machines.chessFramework.common.JSONUtil
+com/thinking/machines/chessFramework/common/Request.java
+ com.thinking.machines.chessFramework.common.Request
+com/thinking/machines/chessFramework/common/Pieces_color.java
+ com.thinking.machines.chessFramework.common.Pieces_color
+com/thinking/machines/chessFramework/common/Response.java
+ com.thinking.machines.chessFramework.common.Response

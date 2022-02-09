@@ -1,0 +1,14 @@
+com/thinking/machines/chessFramework/client/ChessPieces.java
+ com.thinking.machines.chessFramework.client.Bishop_chessPieces
+ com.thinking.machines.chessFramework.client.ChessPieces
+ com.thinking.machines.chessFramework.client.King_chessPieces
+ com.thinking.machines.chessFramework.client.Knight_chessPieces
+ com.thinking.machines.chessFramework.client.Pawn_chessPieces
+ com.thinking.machines.chessFramework.client.Queen_chessPieces
+ com.thinking.machines.chessFramework.client.Rook_chessPieces
+com/thinking/machines/chessFramework/client/ChessFrameworkClient.java
+ com.thinking.machines.chessFramework.client.ChessFrameworkClient
+ com.thinking.machines.chessFramework.client.ChessFrameworkClient$1
+com/thinking/machines/chessFramework/client/ClientApplication.java
+ com.thinking.machines.chessFramework.client.ClientApplication
+ com.thinking.machines.chessFramework.client.ClientApplication$1

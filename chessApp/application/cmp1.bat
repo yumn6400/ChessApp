@@ -1,0 +1,2 @@
+javac -classpath ..\chessFramework\common\build\libs\chessFramework-common.jar;..\chessFramework\server\build\libs\chessFramework-server.jar;c:\gson\*;. Chess.java
+java -classpath ..\chessFramework\common\build\libs\chessFramework-common.jar;..\chessFramework\server\build\libs\chessFramework-server.jar;c:\gson\*;. Chess
