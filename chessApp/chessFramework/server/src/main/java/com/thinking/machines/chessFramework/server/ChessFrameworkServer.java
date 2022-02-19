@@ -10,10 +10,12 @@ public class ChessFrameworkServer
 private ServerSocket serverSocket;
 private ServerApplication application;
 private Set<ChessPiecesInfo> recordList;
+private DataModel model;
 public ChessFrameworkServer()
 {
+model=new DataModel();
 recordList=new HashSet<>();
-application=new ServerApplication(this);
+application=new ServerApplication(this,model);
 }
 public void setRecordList(Set<ChessPiecesInfo> recordList)
 {

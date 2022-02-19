@@ -8,7 +8,14 @@ com/thinking/machines/chessFramework/client/ChessPieces.java
  com.thinking.machines.chessFramework.client.Rook_chessPieces
 com/thinking/machines/chessFramework/client/ChessFrameworkClient.java
  com.thinking.machines.chessFramework.client.ChessFrameworkClient
- com.thinking.machines.chessFramework.client.ChessFrameworkClient$1
 com/thinking/machines/chessFramework/client/ClientApplication.java
  com.thinking.machines.chessFramework.client.ClientApplication
  com.thinking.machines.chessFramework.client.ClientApplication$1
+ com.thinking.machines.chessFramework.client.ClientApplication$1$1
+ com.thinking.machines.chessFramework.client.CloseButtonHandler
+com/thinking/machines/chessFramework/client/UserConnection.java
+ com.thinking.machines.chessFramework.client.UserConnection
+ com.thinking.machines.chessFramework.client.UserConnection$1
+ com.thinking.machines.chessFramework.client.UserConnection$1$1
+ com.thinking.machines.chessFramework.client.UserConnection$2
+ com.thinking.machines.chessFramework.client.UserConnection$3

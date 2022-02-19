@@ -4,6 +4,36 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
+import com.google.gson.reflect.*;
+import com.google.gson.*;
+class CloseButtonHandler extends WindowAdapter
+{
+private ChessFrameworkClient client;
+private String uniqueID;
+CloseButtonHandler(ChessFrameworkClient client,String uniqueID)
+{
+this.client=client;
+this.uniqueID=uniqueID;
+}
+public static void exit()
+{
+System.exit(0);
+}
+public void windowClosing(WindowEvent ev)
+{
+Request request=new Request();
+request.setAction(UserAction.TERMINATE_GAME);
+request.setArguments(uniqueID);
+try
+{
+client.execute(request);
+}catch(Throwable t)
+{
+System.out.println(t);
+}
+System.exit(0);
+}
+}
 public class ClientApplication extends JFrame implements ActionListener
 {
 private Container container;
@@ -31,7 +61,6 @@ private Map<Point,ChessPieces> pieces_identity;
 private java.util.Set<ChessPiecesInfo> pieces_DS;
 private javax.swing.Timer timer;
 private ChessPieces chessPieces;
-private boolean turn_white_pieces;
 private ChessPieces c1;
 private ChessPieces c2;
 private Icon icon1;
@@ -42,13 +71,17 @@ private Panel p1,p2,p3;
 private JButton ok_button,undo_button;
 private boolean ok_button_checked;
 private boolean undo_button_checked;
-private int user_id;
 private JLabel text;
 private JLabel turn;
-public ClientApplication(ChessFrameworkClient client,int user_id)
+private int user_id=1;
+private String uniqueID;
+private String userName;
+public ClientApplication(ChessFrameworkClient client,String uniqueID,int user_id,String userName)
 {  
-this.client=client;  
+this.uniqueID=uniqueID;
+this.userName=userName;
 this.user_id=user_id;
+this.client=client;  
 initialize();
 container=getContentPane();
 container.setLayout(new BorderLayout());
@@ -104,15 +137,49 @@ int height=600;
 setLocation((d.width/2)-(width/2),(d.height/2)-(height/2));
 setSize(width,height);
 setVisible(true);
+CloseButtonHandler cbh=new CloseButtonHandler(client,uniqueID);
+addWindowListener(cbh);
 timer=new javax.swing.Timer(1000,new ActionListener(){
 public void actionPerformed(ActionEvent ev)
 {
 Set<ChessPiecesInfo> pieces_DS=null;
 try
 {
-pieces_DS=client.execute((Object)pieces_DS);
-if(pieces_DS.size()>0)performTask(pieces_DS);
-System.out.println("-------------");
+GenerateRequestObject generateRequestObject=new GenerateRequestObject();
+generateRequestObject.uniqueID=uniqueID;
+generateRequestObject.userName=userName;
+generateRequestObject.info=pieces_DS;
+Request request=new Request();
+request.setAction(UserAction.PLAY_GAME);
+request.setArguments(generateRequestObject);
+
+JsonParser parser = new JsonParser();
+JsonObject rootObject = parser.parse(client.execute(request)).getAsJsonObject();
+
+Boolean success = rootObject.get("success").getAsBoolean();
+if(success==false)
+{
+return;
+}
+JsonElement projectElement = rootObject.get("result");
+if(projectElement==null&&success==true)
+{
+JOptionPane.showMessageDialog(ClientApplication.this,"Game ends");
+CloseButtonHandler.exit();
+}
+Gson gson = new Gson();
+Set<ChessPiecesInfo> projectList = new HashSet<>();
+if (projectElement.isJsonObject())
+{
+ChessPiecesInfo info = gson.fromJson(projectElement, ChessPiecesInfo.class);
+projectList.add(info);
+}
+else if (projectElement.isJsonArray())
+{
+java.lang.reflect.Type projectListType = new TypeToken<Set<ChessPiecesInfo>>() {}.getType();
+projectList = gson.fromJson(projectElement, projectListType);
+}
+if(projectList.size()>0)performTask(projectList);
 }catch(Throwable t)
 {
 System.out.println(t);
@@ -299,10 +366,15 @@ if(flag==3&&c2.getPieces_type()==Pieces_type.KING)
 if(c2.getPieces_color()==Pieces_color.WHITE)
 {
 JOptionPane.showMessageDialog(this,"Black Win");
+
+
+
 }
 else if(c2.getPieces_color()==Pieces_color.BLACK)
 {
 JOptionPane.showMessageDialog(this,"White Win");
+
+
 }
 chessPiecesInfo=new ChessPiecesInfo();
 chessPiecesInfo.setPieces_position(null);
@@ -313,7 +385,14 @@ pieces_DS.add(chessPiecesInfo);
 try
 {
 flag=0;
-client.execute((Object)pieces_DS);
+GenerateRequestObject generateRequestObject=new GenerateRequestObject();
+generateRequestObject.uniqueID=uniqueID;
+generateRequestObject.userName=userName;
+generateRequestObject.info=pieces_DS;
+Request request=new Request();
+request.setAction(UserAction.PLAY_GAME);
+request.setArguments(generateRequestObject);
+client.execute(request);
 text.setText("   ");
 ok_button.setEnabled(false);
 undo_button.setEnabled(false);
@@ -430,12 +509,10 @@ prev_position=p;
 else if(flag==2||flag==3)
 {
 new_position=p;
-System.out.println("Flag: "+flag);
 c1=pieces_identity.get(prev_position);
 c2=pieces_identity.get(new_position);
 if(flag==3&&(c1.getPieces_color()==c2.getPieces_color()))
 {
-System.out.println("------------------");
 flag=0;
 if(prev_position!=null)setBackground(prev_position.x,prev_position.y);
 if(new_position!=null)setBackground(new_position.x,new_position.y);
@@ -500,10 +577,32 @@ if(pieces_DS.size()==3)
 if(user_id==1)
 {
 JOptionPane.showMessageDialog(this,"Black Win");
+Request request=new Request();
+request.setAction(UserAction.TERMINATE_GAME);
+request.setArguments(uniqueID);
+try
+{
+client.execute(request);
+}catch(Throwable t)
+{
+System.out.println(t);
+}
+System.exit(0);
 }
 else if(user_id==2)
 {
 JOptionPane.showMessageDialog(this,"White Win");
+Request request=new Request();
+request.setAction(UserAction.TERMINATE_GAME);
+request.setArguments(uniqueID);
+try
+{
+client.execute(request);
+}catch(Throwable t)
+{
+System.out.println(t);
+}
+System.exit(0);
 }
 }
 
@@ -529,7 +628,6 @@ return;
 }
 int pos_x=0;
 int pos_y=0;
-System.out.println("Size: "+pieces_DS.size());
 for(ChessPiecesInfo info: pieces_DS)
 {
 pos_x=info.getPieces_position().x;

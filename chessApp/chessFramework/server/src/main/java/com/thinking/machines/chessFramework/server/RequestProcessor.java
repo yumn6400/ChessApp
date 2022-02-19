@@ -74,26 +74,9 @@ j=j+bytesReadCount;
 }
 Set<ChessPiecesInfo> projectList = new HashSet<>();
 String requestJsonString=new String(request,StandardCharsets.UTF_8);
-System.out.println(requestJsonString);
-JsonParser parser = new JsonParser();
-JsonObject rootObject = parser.parse(requestJsonString).getAsJsonObject();
-JsonElement projectElement = rootObject.get("arguments");
-if(projectElement!=null)
-{
-Gson gson = new Gson();
-if (projectElement.isJsonObject())
-{
-ChessPiecesInfo info = gson.fromJson(projectElement, ChessPiecesInfo.class);
-projectList.add(info);
-}
-else if (projectElement.isJsonArray())
-{
-Type projectListType = new TypeToken<Set<ChessPiecesInfo>>() {}.getType();
-projectList = gson.fromJson(projectElement, projectListType);
-}
-}
-Response responseObject=application.process(projectList);
+Response responseObject=application.process(requestJsonString);
 String responseJSONString=JSONUtil.toJSON(responseObject);
+System.out.println(responseJSONString);
 byte objectBytes[]=responseJSONString.getBytes(StandardCharsets.UTF_8);
 int responseLength=objectBytes.length;
 int x;

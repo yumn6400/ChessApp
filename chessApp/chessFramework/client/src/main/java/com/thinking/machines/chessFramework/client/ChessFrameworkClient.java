@@ -11,19 +11,22 @@ import java.lang.reflect.*;
 public class ChessFrameworkClient
 {
 private ClientApplication application;
-private int user_id;
-public ChessFrameworkClient(int user_id)
+private String uniqueId;
+private String userName;
+private int userID;
+public ChessFrameworkClient(String uniqueId,int userID,String userName)
 {
-this.user_id=user_id;
-application=new ClientApplication(this,user_id);
+this.uniqueId=uniqueId;
+this.userName=userName;
+this.userID=userID;
+application=new ClientApplication(this,uniqueId,userID,userName);
 }
-public Set<ChessPiecesInfo> execute(Object arguments)throws Throwable
+public static String execute(Request request)throws Throwable
 {
 try
 {
-Request request=new Request();
-request.setArguments(arguments);
 String requestJsonString=JSONUtil.toJSON(request);
+System.out.println(requestJsonString);
 byte objectBytes[]=requestJsonString.getBytes(StandardCharsets.UTF_8);
 int requestLength=objectBytes.length;
 byte header[]=new byte[1024];
@@ -111,36 +114,9 @@ ack[0]=1;
 os.write(ack);
 os.flush();
 socket.close();
-/*
 String responseJsonString=new String(response,StandardCharsets.UTF_8);
-Response responseObject=JSONUtil.fromJSON(responseJsonString,Response.class);
-if(responseObject.getSuccess())
-{
-return responseObject.getResult();
-}
-else
-{
-//throw responseObject.getException();
-}*/
-
-String responseJsonString=new String(response,StandardCharsets.UTF_8);
-JsonParser parser = new JsonParser();
-JsonObject rootObject = parser.parse(responseJsonString).getAsJsonObject();
-JsonElement projectElement = rootObject.get("result");
-
-Gson gson = new Gson();
-Set<ChessPiecesInfo> projectList = new HashSet<>();
-if (projectElement.isJsonObject())
-{
-ChessPiecesInfo info = gson.fromJson(projectElement, ChessPiecesInfo.class);
-projectList.add(info);
-}
-else if (projectElement.isJsonArray())
-{
-Type projectListType = new TypeToken<Set<ChessPiecesInfo>>() {}.getType();
-projectList = gson.fromJson(projectElement, projectListType);
-}
-return projectList;
+System.out.println(responseJsonString);	
+return responseJsonString;
 }catch(Exception e)
 {
 System.out.println(e);

@@ -1,12 +1,26 @@
+com/thinking/machines/chessFramework/common/AcceptedInvitation.java
+ com.thinking.machines.chessFramework.common.AcceptedInvitation
 com/thinking/machines/chessFramework/common/ChessPiecesInfo.java
  com.thinking.machines.chessFramework.common.ChessPiecesInfo
+com/thinking/machines/chessFramework/common/Invitation.java
+ com.thinking.machines.chessFramework.common.Invitation
 com/thinking/machines/chessFramework/common/Pieces_type.java
  com.thinking.machines.chessFramework.common.Pieces_type
 com/thinking/machines/chessFramework/common/JSONUtil.java
  com.thinking.machines.chessFramework.common.JSONUtil
-com/thinking/machines/chessFramework/common/Request.java
- com.thinking.machines.chessFramework.common.Request
+com/thinking/machines/chessFramework/common/GenerateResponseObject.java
+ com.thinking.machines.chessFramework.common.GenerateResponseObject
+com/thinking/machines/chessFramework/common/GenerateRequestObject.java
+ com.thinking.machines.chessFramework.common.GenerateRequestObject
 com/thinking/machines/chessFramework/common/Pieces_color.java
  com.thinking.machines.chessFramework.common.Pieces_color
 com/thinking/machines/chessFramework/common/Response.java
  com.thinking.machines.chessFramework.common.Response
+com/thinking/machines/chessFramework/common/exceptions/NetworkException.java
+ com.thinking.machines.chessFramework.common.exceptions.NetworkException
+com/thinking/machines/chessFramework/common/NewUserLogin.java
+ com.thinking.machines.chessFramework.common.NewUserLogin
+com/thinking/machines/chessFramework/common/Request.java
+ com.thinking.machines.chessFramework.common.Request
+com/thinking/machines/chessFramework/common/UserAction.java
+ com.thinking.machines.chessFramework.common.UserAction
